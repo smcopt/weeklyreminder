@@ -61,7 +61,7 @@ html_body = f"""
     /* Header */
     .header {{ 
         background-color: {BRAND_COLOR}; 
-        padding: 30px 40px; 
+        padding: 15px 40px; 
         text-align: center; 
     }}
     .header img {{ 
