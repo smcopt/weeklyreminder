@@ -3,24 +3,23 @@ import os
 import ssl
 from email.message import EmailMessage
 from datetime import datetime
+import mimetypes
 
 # --- CONFIGURATION ---
-SENDER_EMAIL = os.environ.get('EMAIL_USER')
-APP_PASSWORD = os.environ.get('EMAIL_PASSWORD')
+# 1. Credentials (With the fix for hidden spaces included)
+SENDER_EMAIL = os.environ.get('EMAIL_USER', '').strip().replace('\xa0', '')
+APP_PASSWORD = os.environ.get('EMAIL_PASSWORD', '').strip().replace('\xa0', '').replace(' ', '')
 RECEIVER_EMAILS = ["sujanpaudel3@gmail.com", "sujanpaudel@iom.int"]
 
-# --- BRANDING (Based on your Color Guide) ---
-# Primary Header Background: Blue Sapphire
-BRAND_COLOR = "#1B657C"
-# Call to Action Button: Burnt Sienna
-ACCENT_COLOR = "#EC6B4D"
-# Main Text: Baltic Sea
-TEXT_COLOR = "#2C2C2C"
-# Email Background: Ecru White
-BG_COLOR = "#F5F3E8"
+# 2. Files
+# This filename MUST match the file in your repo exactly
+IMAGE_FILENAME = "CountryLogo_Palestine_V01.png"
 
-# URL to your logo (Replace with your specific GitHub Raw URL)
-LOGO_URL = "https://github.com/smcopt/weeklyreminder/blob/779c27bb539d55d1b4df136a86b7173adfe3e917/CountryLogo_Palestine_V01.png"
+# 3. Branding (Based on your Color Guide)
+BRAND_COLOR = "#1B657C"  # Blue Sapphire
+ACCENT_COLOR = "#EC6B4D" # Burnt Sienna
+TEXT_COLOR = "#2C2C2C"   # Baltic Sea
+BG_COLOR = "#F5F3E8"     # Ecru White
 ORG_NAME = "Site Management Cluster - Palestine"
 
 # --- EMAIL CONTENT ---
@@ -32,14 +31,15 @@ Hi Team,
 
 This is your automated weekly reminder for Thursday at 4 PM.
 Please remember:
-To book the meeting room for the Cluster Meeting
-To send the list of individuals joining the meeting to the security team. 
+* To book the meeting room for the Cluster Meeting
+* To send the list of individuals joining the meeting to the security team.
 
 Best regards,
 IM Team
 """
 
 # 2. HTML Version (Branded)
+# Note: The img src is now "cid:logo_image" to reference the attached file
 html_body = f"""
 <!DOCTYPE html>
 <html>
@@ -53,7 +53,7 @@ html_body = f"""
         max-width: 600px; 
         margin: 40px auto; 
         background-color: #ffffff; 
-        border-radius: 0px; /* Sharp corners often look more humanitarian/official */
+        border-radius: 0px; 
         overflow: hidden; 
         box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
     }}
@@ -67,7 +67,7 @@ html_body = f"""
     .header img {{ 
         max-width: 200px; 
         height: auto; 
-        filter: brightness(0) invert(1); /* Turns black logo to white if needed, remove if logo is already white */
+        filter: brightness(0) invert(1); /* Turns logo white on dark background */
     }}
 
     /* Content */
@@ -109,7 +109,7 @@ html_body = f"""
 
 <div class="container">
     <div class="header">
-        <img src="{LOGO_URL}" alt="Site Management Cluster Logo">
+        <img src="cid:logo_image" alt="Site Management Cluster Logo">
     </div>
 
     <div class="content">
@@ -149,6 +149,24 @@ def send_email():
 
     msg.set_content(text_body)
     msg.add_alternative(html_body, subtype='html')
+
+    # --- IMAGE EMBEDDING LOGIC ---
+    # This block finds the file and attaches it so 'cid:logo_image' works
+    if os.path.exists(IMAGE_FILENAME):
+        with open(IMAGE_FILENAME, 'rb') as f:
+            img_data = f.read()
+            
+        # Attach image to the HTML part
+        msg.get_payload()[1].add_related(
+            img_data, 
+            maintype='image', 
+            subtype='png', 
+            cid='<logo_image>'
+        )
+        print(f"Loaded image: {IMAGE_FILENAME}")
+    else:
+        print(f"Warning: Image file '{IMAGE_FILENAME}' not found. Sent without logo.")
+    # -----------------------------
 
     context = ssl.create_default_context()
     
