@@ -13,7 +13,7 @@ RECEIVER_EMAILS = ["sujanpaudel3@gmail.com", "sujanpaudel@iom.int"]
 
 # 2. Files
 # This filename MUST match the file in your repo exactly
-IMAGE_FILENAME = "CountryLogo_Palestine_V01.png"
+IMAGE_FILENAME = "Palestine_EcruWhite_TransBack.png"
 
 # 3. Branding (Based on your Color Guide)
 BRAND_COLOR = "#1B657C"  # Blue Sapphire
@@ -61,7 +61,7 @@ html_body = f"""
     /* Header */
     .header {{ 
         background-color: {BRAND_COLOR}; 
-        padding: 15px 40px; 
+        padding: 8px 40px; 
         text-align: center; 
     }}
     .header img {{ 
