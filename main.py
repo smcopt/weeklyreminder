@@ -119,23 +119,17 @@ html_body = f"""
         <p>This is your automated weekly reminder. Please ensure the following reporting tasks are completed by EOD:</p>
         
         <ul>
-            <li><strong>Task 1:</strong> Update the 3W Matrix.</li>
-            <li><strong>Task 2:</strong> Clean the contact list.</li>
-            <li><strong>Task 3:</strong> Submit weekly site stats.</li>
+            <li><strong>Task 1:</strong> Book the meeting room (Dead Sea - Ground Floor, Building A, IOM) for the Cluster Meeting</li>
+            <li><strong>Task 2:</strong> Share the list of in-person participants/attendees with the Security Team </li>
+            <li><strong>Task 3:</strong> Ensure that all action points for this week have been addressed by the designated team members</li>
         </ul>
 
-        <center>
-            <a href="https://your-dashboard-link.com" class="btn">Open Dashboard</a>
-        </center>
-
-        <p style="margin-top: 30px; font-size: 0.9em;">
-            <em>"Coordinating humanitarian response for displaced populations."</em>
-        </p>
+        <p>Cheers,</p>
+        <p>SM Cluster IM Team</p>
     </div>
 
     <div class="footer">
-        <p>&copy; {datetime.now().year} {ORG_NAME}.<br>
-        Sent via Python Automation.</p>
+        <p>&copy; {datetime.now().year} {ORG_NAME}.<br></p>
     </div>
 </div>
 
