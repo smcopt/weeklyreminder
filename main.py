@@ -20,7 +20,7 @@ TEXT_COLOR = "#2C2C2C"
 BG_COLOR = "#F5F3E8"
 
 # URL to your logo (Replace with your specific GitHub Raw URL)
-LOGO_URL = "CountryLogo_Palestine_V01.png"
+LOGO_URL = "https://github.com/smcopt/weeklyreminder/blob/779c27bb539d55d1b4df136a86b7173adfe3e917/CountryLogo_Palestine_V01.png"
 ORG_NAME = "Site Management Cluster - Palestine"
 
 # --- EMAIL CONTENT ---
