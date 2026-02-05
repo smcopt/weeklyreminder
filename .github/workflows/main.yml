@@ -1,0 +1,35 @@
+name: Weekly Team Reminder
+
+on:
+  # 1. Schedule: Runs automatically
+  schedule:
+    # Cron syntax: Minute Hour Day Month DayOfWeek
+    # 13:00 UTC = 16:00 Amman Time (UTC+3)
+    # 4 = Thursday (0 is Sunday, 1 is Monday...)
+    - cron: '0 13 * * 4'
+  
+  # 2. Manual Trigger: Allows you to click a button to test it instantly
+  workflow_dispatch:
+
+jobs:
+  send-email:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Download your code from the repo
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Install Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      # Step 3: Run the script
+      - name: Run Reminder Script
+        env:
+          # These grab the secrets you saved in Settings > Secrets
+          EMAIL_USER: ${{ secrets.EMAIL_USER }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+        run: python main.py
